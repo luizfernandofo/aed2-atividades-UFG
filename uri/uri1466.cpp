@@ -53,9 +53,11 @@ int main(void)
         for(j=0; j<n; j++){
             cin >> data;
             t.InsertNode(data);
-            t.BFS();
         }
-
+        
+        cout << "Case " << i << ":" << endl;
+        t.BFS();
+        cout << endl;
     }
 
 
@@ -104,11 +106,20 @@ void BSTree::BFS(){
     nivel.push(Root);
 
     while(!nivel.empty()){
-        cout << nivel.front()->data << " ";
+        cout << nivel.front()->data;
+
         if(nivel.front()->LeftChild) nivel.push(nivel.front()->LeftChild);
+
         if(nivel.front()->RightChild) nivel.push(nivel.front()->RightChild);
+
+        delete nivel.front();
+
         nivel.pop();
+
+        if(nivel.size()) cout << " ";
     }
+
+    Root = NULL;
 
     cout << endl;
 
