@@ -9,7 +9,8 @@ using namespace std;
 class TreeNode{
 
     public:
-        int data;
+        string *killer;
+        int amount_killed;
 
         TreeNode *LeftChild, *RightChild;
 
@@ -17,6 +18,8 @@ class TreeNode{
 
         TreeNode(){
             LeftChild = RightChild = NULL;
+            killer = NULL;
+            amount_killed = 0;
         }
 };
 
@@ -29,7 +32,7 @@ class BSTree{
 
     public:
     
-        void InsertNode(int data);
+        void InsertNode(string *killer);
 
         void BFS();
 
@@ -42,9 +45,9 @@ class BSTree{
 
 int main(void)
 {
-    int i; // contadores
+    unsigned int i, j; // contadores
 
-    //BSTree t;
+    BSTree killers_tree;
 
     vector<string> killers, killed;
 
@@ -52,40 +55,59 @@ int main(void)
 
     while(1){
         cin >> temp;
+        if(cin.eof()) break;
         killers.push_back(temp);
         cin >> temp;
         killed.push_back(temp);
-        if(cin.eof()) break;
+    }
+    
+
+    for(i=0; i<killers.size(); i++){
+        for(j=0; j<killed.size(); j++){
+            if(killers[i].compare(killed[j]) == 0){
+                killers.erase(killers.begin()+i);
+                break;
+            }
+        }
     }
 
-    for(i=0; i<6; i++) cout << killers[i] << killers[i].size() << endl;
-
-    for(i=0; i<6; i++) cout << killed[i] << killed[i].size() << endl;
+    for(i=0; i<killers.size(); i++) cout << killers[i] << endl;
+    cout << endl;
+    for(i=0; i<killed.size(); i++) cout << killed[i] << endl;
     
+    //for(i=0; i<killers.size(); i++) killers_tree.InsertNode(&killers[i]);
+
+    cout << "HALL OF MURDERERS" << endl;
+
+    killers_tree.BFS();
 
     return 0;
 }
 
 
-void BSTree::InsertNode( int data ){
+void BSTree::InsertNode(string *killer){
 
     TreeNode *Tmp, *NewNode = new TreeNode;
 
-        NewNode->data = data;
+        NewNode->killer = killer;
+        NewNode->amount_killed++;
 
-        NewNode->LeftChild = NewNode->RightChild = NULL;
         if( Root == NULL) {
             Root = NewNode; return;
         }
         Tmp = Root ;
         while(Tmp != NULL ){
-            if(data < Tmp->data){
+            if(NewNode->killer->compare(*(Tmp->killer)) == 0){
+                Tmp->amount_killed++;
+                delete NewNode;
+
+            }else if(NewNode->killer->compare(*(Tmp->killer)) < 0){
                 if(Tmp->LeftChild == NULL) {
                 Tmp->LeftChild = NewNode; return;
                 }
                 Tmp = Tmp->LeftChild;
             }
-            else{
+            else if(NewNode->killer->compare(*(Tmp->killer)) > 0){
                 if(Tmp->RightChild == NULL){
                 Tmp->RightChild = NewNode ; return;
             }
@@ -104,7 +126,7 @@ void BSTree::BFS(){
     nivel.push(Root);
 
     while(!nivel.empty()){
-        cout << nivel.front()->data;
+        cout << *(nivel.front()->killer) << " " << nivel.front()->amount_killed << endl;
 
         if(nivel.front()->LeftChild) nivel.push(nivel.front()->LeftChild);
 
@@ -114,12 +136,9 @@ void BSTree::BFS(){
 
         nivel.pop();
 
-        if(nivel.size()) cout << " ";
     }
 
     Root = NULL;
-
-    cout << endl;
 
     return;
 
