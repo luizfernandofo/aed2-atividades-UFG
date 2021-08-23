@@ -42,24 +42,26 @@ class BSTree{
 
 int main(void)
 {
-    int cases, i, j, n, data; // contadores
+    int i; // contadores
 
-    BSTree t;
+    //BSTree t;
 
-    cin >> cases;
+    vector<string> killers, killed;
 
-    for(i=1; i<=cases; i++){
-        cin >> n;
-        for(j=0; j<n; j++){
-            cin >> data;
-            t.InsertNode(data);
-        }
-        
-        cout << "Case " << i << ":" << endl;
-        t.BFS();
-        cout << endl;
+    char temp[10+1];
+
+    while(1){
+        cin >> temp;
+        killers.push_back(temp);
+        cin >> temp;
+        killed.push_back(temp);
+        if(cin.eof()) break;
     }
 
+    for(i=0; i<6; i++) cout << killers[i] << killers[i].size() << endl;
+
+    for(i=0; i<6; i++) cout << killed[i] << killed[i].size() << endl;
+    
 
     return 0;
 }
@@ -97,11 +99,7 @@ void BSTree::InsertNode( int data ){
 
 void BSTree::BFS(){
 
-    TreeNode *temp = NULL;
-
     if(Root == NULL) return;
-
-    temp = Root;
 
     nivel.push(Root);
 
