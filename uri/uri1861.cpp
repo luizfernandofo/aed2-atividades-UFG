@@ -1,16 +1,25 @@
 #include<iostream>
 #include<queue>
-#include<stdio.h>
-
-#define TAMANHO 53
 
 using namespace std;
+
+class Killer{
+
+    public:
+        string name;
+        bool alive;
+        int kills;
+
+        Killer(){
+            alive = true;
+            kills = 1;
+        }
+};
 
 class TreeNode{
 
     public:
-        string *killer;
-        int amount_killed;
+        Killer *killer;
 
         TreeNode *LeftChild, *RightChild;
 
@@ -19,7 +28,6 @@ class TreeNode{
         TreeNode(){
             LeftChild = RightChild = NULL;
             killer = NULL;
-            amount_killed = 0;
         }
 };
 
@@ -32,7 +40,7 @@ class BSTree{
 
     public:
     
-        void InsertNode(string *killer);
+        void InsertNode(Killer *killer);
 
         void BFS();
 
@@ -49,29 +57,45 @@ int main(void)
 
     BSTree killers_tree;
 
-    vector<string> killers, killed;
+    vector<Killer> killers, killed;
 
-    char temp[10+1];
+    Killer temp;
 
     while(1){
-        cin >> temp;
+        cin >> temp.name;
         if(cin.eof()) break;
         killers.push_back(temp);
-        cin >> temp;
+        cin >> temp.name;
         killed.push_back(temp);
     }
     
 
     for(i=0; i<killers.size(); i++){
         for(j=0; j<killed.size(); j++){
-            if(killers[i].compare(killed[j]) == 0){
-                killers.erase(killers.begin()+i);
+            if(killers[i].name.compare(killed[j].name) == 0){
+                killers[i].alive = false;
                 break;
             }
         }
     }
+
+    for(i=0; i<killers.size(); i++){
+        if(killers[i].alive){
+            for(j=i+1; j<killers.size(); j++){
+                if(killers[j].alive){
+                    if(killers[i].name.compare(killers[j].name) == 0){
+                        killers[i].kills++;
+                        killers[j].alive = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
     
-    for(i=0; i<killers.size(); i++) killers_tree.InsertNode(&killers[i]);
+    for(i=0; i<killers.size(); i++){
+        if(killers[i].alive) killers_tree.InsertNode(&killers[i]);
+    }
 
     cout << "HALL OF MURDERERS" << endl;
 
@@ -81,36 +105,34 @@ int main(void)
 }
 
 
-void BSTree::InsertNode(string *killer){
+void BSTree::InsertNode(Killer *killer){
 
     TreeNode *Tmp, *NewNode = new TreeNode;
 
         NewNode->killer = killer;
-        NewNode->amount_killed++;
 
         if( Root == NULL) {
-            Root = NewNode; return;
+            Root = NewNode;
+            return;
         }
-        Tmp = Root ;
+        Tmp = Root;
         while(Tmp != NULL ){
-            if(NewNode->killer->compare(*(Tmp->killer)) == 0){
-                Tmp->amount_killed++;
-                delete NewNode; 
-                return;
-
-            }else if(NewNode->killer->compare(*(Tmp->killer)) < 0){
-                if(Tmp->LeftChild == NULL) {
-                Tmp->LeftChild = NewNode; return;
+            if(NewNode->killer->name.compare(Tmp->killer->name) < 0){
+                if(Tmp->LeftChild == NULL){
+                    Tmp->LeftChild = NewNode;
+                    return;
                 }
                 Tmp = Tmp->LeftChild;
             }
-            else if(NewNode->killer->compare(*(Tmp->killer)) > 0){
+            else{
                 if(Tmp->RightChild == NULL){
-                Tmp->RightChild = NewNode ; return;
+                    Tmp->RightChild = NewNode;
+                    return;
+                }
+                Tmp = Tmp->RightChild;
             }
-            Tmp = Tmp->RightChild;
         }
-    }
+    
 
     return;
 
@@ -123,7 +145,7 @@ void BSTree::BFS(){
     nivel.push(Root);
 
     while(!nivel.empty()){
-        cout << *(nivel.front()->killer) << " " << nivel.front()->amount_killed << endl;
+        cout << nivel.front()->killer->name << " " << nivel.front()->killer->kills << endl;
 
         if(nivel.front()->LeftChild) nivel.push(nivel.front()->LeftChild);
 
