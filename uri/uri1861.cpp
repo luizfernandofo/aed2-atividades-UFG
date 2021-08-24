@@ -72,13 +72,11 @@ int main(void)
     }
     
     
-    for(i=0; i<killers.size(); i++){
-        if(killers[i].alive) killers_tree.InsertNode(&killers[i]);
-    }
+    for(i=0; i<killers.size(); i++) killers_tree.InsertNode(&killers[i]);
+    
 
-    for(i=0; i<killers.size(); i++){
-        if(killers[i].alive) killers_tree.Killed(&killed[i]);
-    }
+    for(i=0; i<killed.size(); i++) killers_tree.Killed(&killed[i]);
+    
 
     cout << "HALL OF MURDERERS" << endl;
 
