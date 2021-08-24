@@ -70,12 +70,8 @@ int main(void)
             }
         }
     }
-
-    for(i=0; i<killers.size(); i++) cout << killers[i] << endl;
-    cout << endl;
-    for(i=0; i<killed.size(); i++) cout << killed[i] << endl;
     
-    //for(i=0; i<killers.size(); i++) killers_tree.InsertNode(&killers[i]);
+    for(i=0; i<killers.size(); i++) killers_tree.InsertNode(&killers[i]);
 
     cout << "HALL OF MURDERERS" << endl;
 
@@ -99,7 +95,8 @@ void BSTree::InsertNode(string *killer){
         while(Tmp != NULL ){
             if(NewNode->killer->compare(*(Tmp->killer)) == 0){
                 Tmp->amount_killed++;
-                delete NewNode;
+                delete NewNode; 
+                return;
 
             }else if(NewNode->killer->compare(*(Tmp->killer)) < 0){
                 if(Tmp->LeftChild == NULL) {
