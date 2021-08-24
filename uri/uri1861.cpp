@@ -43,7 +43,9 @@ class BSTree{
 
         int Killed(string *killer);
 
-        void BFS();
+        void FreeTree();
+
+        void InOrder(TreeNode *root);
 
         BSTree(){
             Root = NULL;
@@ -69,14 +71,15 @@ int main(void)
         killers_tree.InsertNode(&temp_name);
         cin >> temp_name;
         killed.push_back(temp_name);
-        //if(killers_tree.Killed(&killed.back())) killed.pop_back();
     }
     
     for(i=0; i<killed.size(); i++) killers_tree.Killed(&killed[i]);
     
     cout << "HALL OF MURDERERS" << endl;
 
-    killers_tree.BFS();
+    killers_tree.InOrder(killers_tree.Root);
+
+    killers_tree.FreeTree();
 
     return 0;
 }
@@ -141,7 +144,7 @@ int BSTree::Killed(string *killer){
         }
         Tmp = Root;
         while(Tmp != NULL ){
-            //killer->compare(Tmp->killer.name)
+            
             if(compare(killer, &(Tmp->killer.name)) == 0){
 
                 Tmp->killer.alive = false;
@@ -165,14 +168,13 @@ int BSTree::Killed(string *killer){
 
 }
 
-void BSTree::BFS(){
+void BSTree::FreeTree(){
 
     if(Root == NULL) return;
 
     nivel.push(Root);
 
     while(!nivel.empty()){
-        if(nivel.front()->killer.alive) cout << nivel.front()->killer.name << " " << nivel.front()->killer.kills << endl;
 
         if(nivel.front()->LeftChild) nivel.push(nivel.front()->LeftChild);
 
@@ -185,6 +187,18 @@ void BSTree::BFS(){
     }
 
     Root = NULL;
+
+    return;
+
+}
+
+void BSTree::InOrder(TreeNode *root){
+
+    if(root){
+        InOrder(root->LeftChild);
+        if(root->killer.alive) cout << root->killer.name << " " << root->killer.kills << endl;
+        InOrder(root->RightChild);
+    }
 
     return;
 
