@@ -141,6 +141,7 @@ int BSTree::Killed(string *killer){
         }
         Tmp = Root;
         while(Tmp != NULL ){
+            //killer->compare(Tmp->killer.name)
             if(compare(killer, &(Tmp->killer.name)) == 0){
 
                 Tmp->killer.alive = false;
