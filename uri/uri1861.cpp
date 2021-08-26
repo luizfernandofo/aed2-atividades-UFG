@@ -1,5 +1,5 @@
 #include<iostream>
-#include<queue>
+#include<vector>
 
 using namespace std;
 
@@ -35,15 +35,11 @@ class BSTree{
     public:
         TreeNode *Root;
 
-        queue<TreeNode *> nivel;
-
     public:
     
         void InsertNode(string *killer);
 
         int Killed(string *killer);
-
-        void FreeTree();
 
         void InOrder(TreeNode *root);
 
@@ -78,8 +74,6 @@ int main(void)
     cout << "HALL OF MURDERERS" << endl;
 
     killers_tree.InOrder(killers_tree.Root);
-
-    killers_tree.FreeTree();
 
     return 0;
 }
@@ -168,36 +162,13 @@ int BSTree::Killed(string *killer){
 
 }
 
-void BSTree::FreeTree(){
-
-    if(Root == NULL) return;
-
-    nivel.push(Root);
-
-    while(!nivel.empty()){
-
-        if(nivel.front()->LeftChild) nivel.push(nivel.front()->LeftChild);
-
-        if(nivel.front()->RightChild) nivel.push(nivel.front()->RightChild);
-
-        delete nivel.front();
-
-        nivel.pop();
-
-    }
-
-    Root = NULL;
-
-    return;
-
-}
-
 void BSTree::InOrder(TreeNode *root){
 
     if(root){
         InOrder(root->LeftChild);
         if(root->killer.alive) cout << root->killer.name << " " << root->killer.kills << endl;
         InOrder(root->RightChild);
+        delete root;
     }
 
     return;
