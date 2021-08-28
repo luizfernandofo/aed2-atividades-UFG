@@ -239,3 +239,19 @@ int compare(string *str1, string *str2){
     
     return 3;
 }
+
+/*Input:
+Arya Meryn
+Meryn Syrio
+Brienne Stannis
+Ellaria Myrcella
+Jaime Aerys
+Brienne Jaime
+*/
+
+/*Saída esperada:
+HALL OF MURDERERS
+Arya 1
+Brienne 2
+Ellaria 1
+*/
