@@ -32,32 +32,44 @@ void dfs_visit(Pixel **imagem, int i, int j, int *n, int *m)
 
     imagem[i][j].color = GRAY;
 
-    if(i > 0 && imagem[i-1][j].pixel == '.' && imagem[i-1][j].color == WHITE)
+    if(i > 0)
     {
-        imagem[i-1][j].parent.x = i;
-        imagem[i-1][j].parent.y = j;
-        dfs_visit(imagem, i-1, j, n, m);
+        if(imagem[i-1][j].pixel == '.' && imagem[i-1][j].color == WHITE)
+        {
+            imagem[i-1][j].parent.x = i;
+            imagem[i-1][j].parent.y = j;
+            dfs_visit(imagem, i-1, j, n, m);
+        }
     }
-
-    if(i < ((*n)-1) && imagem[i+1][j].pixel == '.' && imagem[i+1][j].color == WHITE)
+    
+    if(i < ((*n)-1))
     {
-        imagem[i+1][j].parent.x = i;
-        imagem[i+1][j].parent.y = j;
-        dfs_visit(imagem, i+1, j, n, m);
+        if(imagem[i+1][j].pixel == '.' && imagem[i+1][j].color == WHITE)
+        {
+            imagem[i+1][j].parent.x = i;
+            imagem[i+1][j].parent.y = j;
+            dfs_visit(imagem, i+1, j, n, m);
+        }
     }
-
-    if(j > 0 && imagem[i][j-1].pixel == '.' && imagem[i][j-1].color == WHITE)
+    
+    if(j > 0)
     {
-        imagem[i][j-1].parent.x = i;
-        imagem[i][j-1].parent.y = j;
-        dfs_visit(imagem, i, j-1, n, m);
+        if(imagem[i][j-1].pixel == '.' && imagem[i][j-1].color == WHITE)
+        {
+            imagem[i][j-1].parent.x = i;
+            imagem[i][j-1].parent.y = j;
+            dfs_visit(imagem, i, j-1, n, m);
+        }
     }
-
-    if(j < ((*m)-1) && imagem[i][j+1].pixel == '.' && imagem[i][j+1].color == WHITE)
+    
+    if(j < ((*m)-1))
     {
-        imagem[i][j+1].parent.x = i;
-        imagem[i][j+1].parent.y = j;
-        dfs_visit(imagem, i, j+1, n, m);
+        if(imagem[i][j+1].pixel == '.' && imagem[i][j+1].color == WHITE)
+        {
+            imagem[i][j+1].parent.x = i;
+            imagem[i][j+1].parent.y = j;
+            dfs_visit(imagem, i, j+1, n, m);
+        }
     }
 
     imagem[i][j].color = BLACK;
@@ -68,7 +80,7 @@ void dfs_visit(Pixel **imagem, int i, int j, int *n, int *m)
 
 int main(void)
 {
-    Pixel **imagem;
+    Pixel **imagem = NULL;
     int n, m;
 
     uint32_t clicks=0;
@@ -93,6 +105,7 @@ int main(void)
         }
     }
     
+    // faz o papel de DFS()
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
@@ -104,6 +117,7 @@ int main(void)
         }  
     }
 
+    // conta quantas árvores DFT(depth-first trees) existem
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
