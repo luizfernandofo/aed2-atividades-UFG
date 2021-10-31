@@ -166,6 +166,7 @@ int main(void)
 
         cin >> opcao;
 
+        //limpa o buffer
         cin.ignore(numeric_limits<streamsize>::max(),'\n');
 
         switch(opcao)
