@@ -1,3 +1,16 @@
+/*Input
+
+6 9
+.ooo.ooo.
+o...o...o
+.o.....o.
+..o...o..
+...o.o...
+....o....
+
+
+*/
+
 #include<iostream>
 
 using namespace std;
