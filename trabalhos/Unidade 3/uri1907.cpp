@@ -33,6 +33,7 @@ struct Pixel
     Vec2 parent;
     Color color;
 
+    // construtor
     Pixel()
     {
         parent.x = parent.y = -1;
@@ -40,11 +41,13 @@ struct Pixel
     }
 };
 
+
 void dfs_visit(Pixel **imagem, int i, int j, int *n, int *m)
 {
 
     imagem[i][j].color = GRAY;
 
+    // cada um dos seguintes IFs, verifica se o i e o j informados são válidos
     if(i > 0)
     {
         if(imagem[i-1][j].pixel == '.' && imagem[i-1][j].color == WHITE)
@@ -114,7 +117,7 @@ int main(void)
     {
         for (int j = 0; j < m; j++)
         {
-            cin >> imagem[i][j].pixel;
+            cin >> imagem[i][j].pixel; // '.' ou 'o'
         }
     }
     
@@ -142,6 +145,7 @@ int main(void)
         }  
     }
 
+    // imprime o resultado
     cout << clicks << endl;
 
     // free das colunas alocadas
